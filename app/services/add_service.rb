@@ -12,6 +12,19 @@ class AddService
   private
 
     def add(numbers)
-      0 if numbers.empty?
+      sum = 0
+
+      return sum if numbers.empty?
+
+      current_number = 0
+
+      numbers.each_char do |character|
+        current_number = current_number * 10 + character.to_i and next if character.match?(/\d/)
+
+        sum += current_number
+        current_number = 0
+      end
+
+      sum += current_number
     end
 end
