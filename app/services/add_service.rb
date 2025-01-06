@@ -28,6 +28,10 @@ class AddService
           next
         end
 
+        if character.match?(/\d/) && current_delimiter.present? && current_delimiter != delimiter && !delimiter.start_with?(current_delimiter)
+          raise ArgumentError, "Invalid delimiter found in the string: #{current_delimiter[..-2]}"
+        end
+
         if delimiter.present?
           current_delimiter += character
 
