@@ -14,4 +14,10 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 231, service.process
   end
+
+  def test_add_comma_separated_strings_containing_newline_at_some_places_instead_of_comma
+    service = AddService.new("11,22\n33,44,55\n66")
+
+    assert_equal 231, service.process
+  end
 end
