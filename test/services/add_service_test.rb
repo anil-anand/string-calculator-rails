@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "test_helper"
 
 class AddServiceTest < ActiveSupport::TestCase
@@ -17,6 +15,12 @@ class AddServiceTest < ActiveSupport::TestCase
 
   def test_add_comma_separated_strings_containing_newline_at_some_places_instead_of_comma
     service = AddService.new("11,22\n33,44,55\n66")
+
+    assert_equal 231, service.process
+  end
+
+  def test_addition_with_custom_delimiters_works
+    service = AddService.new("//---\n11---22---33---44---55---66")
 
     assert_equal 231, service.process
   end
