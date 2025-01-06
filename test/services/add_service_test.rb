@@ -8,4 +8,10 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 0, service.process
   end
+
+  def test_add_comma_separated_strings
+    service = AddService.new("11,22,33,44,55,66")
+
+    assert_equal 231, service.process
+  end
 end
