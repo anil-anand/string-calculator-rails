@@ -24,4 +24,12 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 231, service.process
   end
+
+  def test_incorrect_delimiter_raises_an_error
+    service = AddService.new("//---\n11---22--33---44---55--66")
+
+    assert_raises ArgumentError do
+      service.process
+    end
+  end
 end
