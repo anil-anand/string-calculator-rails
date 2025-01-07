@@ -1,4 +1,6 @@
 class AddService
+  attr_reader :invalid_numbers
+
   def initialize(numbers)
     @numbers = numbers
   end
@@ -25,6 +27,7 @@ class AddService
   def extract_numbers(delimiter)
     parts = @numbers.split(delimiter)
     validate_delimiters!(parts, delimiter.source)
+    validate_numbers!(parts)
     parts.map(&:to_i)
   end
 
@@ -36,5 +39,11 @@ class AddService
     return if invalid_delimiters.empty?
 
     raise ArgumentError, "Invalid delimiters detected: #{invalid_delimiters.uniq.join(', ')}"
+  end
+
+  def validate_numbers!(numbers)
+    @invalid_numbers = numbers.select { |num| num.to_i < 0 }
+
+    raise ArgumentError, "Negative numbers are not allowed: #{invalid_numbers.join(', ')}" if invalid_numbers.any?
   end
 end
