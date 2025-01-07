@@ -21,7 +21,13 @@ class AddService
 
     custom_delimiter = @numbers.lines.first[2..-1].strip
     @numbers = @numbers.lines[1..].join
-    Regexp.new(Regexp.escape(custom_delimiter))
+
+    if custom_delimiter.start_with?("[") && custom_delimiter.end_with?("]")
+      allowed_delimiters = custom_delimiter[1..-2].split("][").map { |delimiter| Regexp.escape(delimiter) }
+      Regexp.new(allowed_delimiters.join("|"))
+    else
+      Regexp.new(Regexp.escape(custom_delimiter))
+    end
   end
 
   def extract_numbers(delimiter)
