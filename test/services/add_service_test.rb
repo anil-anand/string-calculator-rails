@@ -56,4 +56,10 @@ class AddServiceTest < ActiveSupport::TestCase
     assert_equal [ "-22", "-55" ], service.invalid_numbers
     assert_equal "Negative numbers are not allowed: #{service.invalid_numbers.join(', ')}", error.message
   end
+
+  def test_numbers_more_than_1000_are_ignored
+    service = AddService.new("11,22,33,44,55,1001,66")
+
+    assert_equal 231, service.process
+  end
 end
