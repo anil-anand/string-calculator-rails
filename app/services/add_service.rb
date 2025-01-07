@@ -11,7 +11,7 @@ class AddService
     delimiter = detect_delimiter
     number_list = extract_numbers(delimiter)
 
-    number_list.sum
+    number_list.reject { |number| number > 1000 }.sum
   end
 
   private
