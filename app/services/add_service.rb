@@ -1,5 +1,5 @@
 class AddService
-  attr_reader :invalid_numbers
+  attr_reader :invalid_numbers, :invalid_delimiters
 
   def initialize(numbers)
     @numbers = numbers
@@ -32,7 +32,7 @@ class AddService
   end
 
   def validate_delimiters!(parts, delimiter)
-    invalid_delimiters = parts
+    @invalid_delimiters = parts
       .select { |part| part.to_i.to_s != part && part.match?(/[^0-9]/) && part != delimiter }
       .map { |part| part.gsub(/[0-9]/, "") }
 

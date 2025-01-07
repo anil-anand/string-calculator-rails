@@ -28,9 +28,11 @@ class AddServiceTest < ActiveSupport::TestCase
   def test_incorrect_delimiter_raises_an_error
     service = AddService.new("//---\n11---22--33---44---55--66")
 
-    assert_raises ArgumentError do
+    error = assert_raises ArgumentError do
       service.process
     end
+
+    assert_equal "Invalid delimiters detected: #{service.invalid_delimiters.uniq.join(', ')}", error.message
   end
 
   def test_negative_numbers_in_the_string_raises_an_error_for_comma_separated_input
