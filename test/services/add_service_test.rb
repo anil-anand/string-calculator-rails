@@ -62,4 +62,10 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 231, service.process
   end
+
+  def test_multiple_delimiters_are_supported
+    service = AddService.new("//[----][%%%][**]\n11----22%%%33**44----55%%%66")
+
+    assert_equal 231, service.process
+  end
 end
