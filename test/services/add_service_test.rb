@@ -32,4 +32,15 @@ class AddServiceTest < ActiveSupport::TestCase
       service.process
     end
   end
+
+  def test_negative_numbers_in_the_string_raises_an_error_for_comma_separated_input
+    service = AddService.new("11,-22,33,-44,55,-66")
+
+    error = assert_raises ArgumentError do
+      service.process
+    end
+
+    assert_equal [ "-22", "-44", "-66" ], service.invalid_numbers
+    assert_equal "Negative numbers are not allowed: #{service.invalid_numbers.join(', ')}", error.message
+  end
 end
