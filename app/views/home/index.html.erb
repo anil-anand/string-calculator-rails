@@ -1,0 +1,54 @@
+<div class="container">
+  <h1 class="title">String calculator</h1>
+  <div class="input-area">
+    <textarea id="numbers" class="input-textarea" rows="3" placeholder="Enter numbers (e.g., 1,2,3 or //;\n1;2;3)"></textarea>
+  </div>
+  <button id="calculateButton" class="button">
+    Get result
+  </button>
+  <div id="result" class="result-box">
+    <p>Result: <span id="resultValue" class="bold"></span></p>
+  </div>
+  <div id="error" class="error-box">
+    <p><span id="errorMessage"></span></p>
+  </div>
+</div>
+
+<script>
+    document.getElementById("calculateButton").addEventListener("click", function() {
+        const numbers = document.getElementById("numbers").value;
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error");
+
+        resultDiv.style.display = "none";
+        errorDiv.style.display = "none";
+        document.getElementById("resultValue").textContent = "";
+        document.getElementById("errorMessage").textContent = "";
+
+        fetch("/calculator/add", {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+              "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+            },
+            body: JSON.stringify({ numbers: numbers })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                errorDiv.style.display = "block";
+                resultDiv.style.display = "none";
+                document.getElementById("errorMessage").textContent = data.error;
+            } else {
+                resultDiv.style.display = "block";
+                errorDiv.style.display = "none";
+                document.getElementById("resultValue").textContent = data.result;
+            }
+        })
+        .catch(error => {
+            errorDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            document.getElementById("errorMessage").textContent = "An error occurred";
+        });
+    });
+</script>
