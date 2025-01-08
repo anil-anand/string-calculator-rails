@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   post "/calculator/add", to: "calculator#add"
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end
