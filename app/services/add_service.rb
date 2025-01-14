@@ -8,13 +8,51 @@ class AddService
   def process
     return 0 if @numbers.empty?
 
-    delimiter = detect_delimiter
-    number_list = extract_numbers(delimiter)
+    if @numbers.match?(/\d\*\d/)
+      process_numbers_with_multiplication
+    else
+      delimiter = detect_delimiter
+      number_list = extract_numbers(delimiter)
 
-    number_list.reject { |number| number > 1000 }.sum
+      number_list.reject { |number| number > 1000 }.sum
+    end
   end
 
   private
+
+  def process_numbers_with_multiplication
+    current_number = 0
+    previous_number = 0
+    sum = 0
+    current_delimiter = ""
+
+    @numbers.each_char do |character|
+      if character.match?(/\d/)
+        current_number = current_number * 10 + character.to_i
+        next
+      elsif character == "*"
+        current_delimiter = character
+        sum += current_number
+        previous_number = current_number
+        current_number = 0
+        next
+      end
+
+      if current_delimiter == "*"
+        sum -= previous_number
+        number_to_add = previous_number * current_number
+        sum += number_to_add
+        current_delimiter = ""
+      else
+        sum += current_number
+      end
+
+      previous_number = current_number
+      current_number = 0
+    end
+
+    sum += current_number
+  end
 
   def detect_delimiter
     return /[,\n]/ unless @numbers.start_with?("//")
