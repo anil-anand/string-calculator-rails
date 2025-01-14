@@ -68,4 +68,10 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 231, service.process
   end
+
+  def test_multiplication_and_addition_works_concurrently
+    service = AddService.new("51,22*31,4,32,32")
+
+    assert_equal 801, service.process
+  end
 end
