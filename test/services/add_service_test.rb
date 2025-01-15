@@ -74,4 +74,10 @@ class AddServiceTest < ActiveSupport::TestCase
 
     assert_equal 801, service.process
   end
+
+  def test_addition_works_when_passing_odd_or_even_position_choice
+    service = AddService.new("11,22,33,44,55,66", "odd")
+
+    assert_equal 22 + 44 + 66, service.process
+  end
 end
