@@ -1,6 +1,6 @@
 class CalculatorController < ApplicationController
   def add
-    result = AddService.new(calculator_params[:numbers].to_s).process
+    result = AddService.new(calculator_params[:numbers].to_s, calculator_params[:odd_or_even]).process
 
     render json: { result: result }
   rescue ArgumentError => error
@@ -10,6 +10,6 @@ class CalculatorController < ApplicationController
   private
 
     def calculator_params
-      params.permit(:numbers)
+      params.permit(:numbers, :odd_or_even)
     end
 end
